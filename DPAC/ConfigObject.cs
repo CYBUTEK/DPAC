@@ -27,7 +27,7 @@ namespace DPAC
 
     #endregion
 
-    public class ConfigNodeStore
+    public class ConfigObject
     {
         #region Fields
 
@@ -37,9 +37,9 @@ namespace DPAC
 
         #region Constructors
 
-        public ConfigNodeStore() { }
+        public ConfigObject() { }
 
-        public ConfigNodeStore(string filePath)
+        public ConfigObject(string filePath)
         {
             this.FilePath = filePath;
         }

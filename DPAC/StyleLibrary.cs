@@ -38,11 +38,17 @@ namespace DPAC
 
         #region Properties
 
-        public static GUIStyle Box { get; set; }
+        public static GUIStyle ConfigLabel { get; set; }
 
-        public static GUIStyle Heading { get; set; }
+        public static GUIStyle ConfigText { get; set; }
 
-        public static Texture Texture { get; set; }
+        public static GUIStyle DpBox { get; set; }
+
+        public static GUIStyle DpHeading { get; set; }
+
+        public static Texture DpTexture { get; set; }
+
+        public static GUIStyle ConfigToggle { get; set; }
 
         #endregion
 
@@ -50,7 +56,7 @@ namespace DPAC
         {
             try
             {
-                Heading = new GUIStyle
+                DpHeading = new GUIStyle
                 {
                     normal =
                     {
@@ -62,13 +68,19 @@ namespace DPAC
                     stretchWidth = true
                 };
 
-                Box = new GUIStyle
+                DpBox = new GUIStyle
                 {
                     fixedHeight = Screen.height * 0.75f,
                     alignment = TextAnchor.LowerCenter
                 };
 
-                Texture = GameDatabase.Instance.GetTexture(DrPepperConfig.TextureFile, false);
+                DpTexture = GameDatabase.Instance.GetTexture(Config.TextureFile, false);
+
+                ConfigLabel = new GUIStyle(HighLogic.Skin.label);
+
+                ConfigText = new GUIStyle(HighLogic.Skin.textField);
+
+                ConfigToggle = new GUIStyle(HighLogic.Skin.toggle);
             }
             catch (Exception ex)
             {

@@ -28,7 +28,7 @@ namespace DPAC
     #endregion
 
     [KSPAddon(KSPAddon.Startup.MainMenu, false)]
-    public class DrPepperAlarm : MonoBehaviour
+    public class Alarm : MonoBehaviour
     {
         #region Fields
 
@@ -41,7 +41,7 @@ namespace DPAC
 
         #region Properties
 
-        public static DrPepperAlarm Instance { get; private set; }
+        public static Alarm Instance { get; private set; }
 
         #endregion
 
@@ -57,12 +57,12 @@ namespace DPAC
             Instance = this;
             DontDestroyOnLoad(this);
 
-            this.nextShowTime = Time.time + DrPepperConfig.FirstShowTime;
+            this.nextShowTime = Time.time + Config.FirstShowTime;
         }
 
         protected void OnDestroy()
         {
-            DrPepperConfig.Instance.Save();
+            Config.Instance.Save();
         }
 
         protected void OnGUI()
@@ -84,8 +84,8 @@ namespace DPAC
         {
             if (Time.time >= this.nextShowTime)
             {
-                this.nextShowTime = Time.time + new Random().Next(DrPepperConfig.MinShowTime, DrPepperConfig.MaxShowTime);
-                this.StartCoroutine(this.Showing(DrPepperConfig.Flashes));
+                this.nextShowTime = Time.time + new Random().Next(Config.MinShowTime, Config.MaxShowTime);
+                this.StartCoroutine(this.Showing(Config.Flashes));
             }
         }
 
@@ -99,19 +99,19 @@ namespace DPAC
             {
                 if (i > 0)
                 {
-                    yield return new WaitForSeconds(DrPepperConfig.FlashDuration);
+                    yield return new WaitForSeconds(Config.FlashDuration);
                 }
 
                 this.visible = true;
-                yield return new WaitForSeconds(DrPepperConfig.ShowDuration);
+                yield return new WaitForSeconds(Config.ShowDuration);
                 this.visible = false;
             }
         }
 
         private void Window(int windowId)
         {
-            GUILayout.Label(DrPepperConfig.Heading, StyleLibrary.Heading);
-            GUILayout.Box(StyleLibrary.Texture, StyleLibrary.Box);
+            GUILayout.Label(Config.Heading, StyleLibrary.DpHeading);
+            GUILayout.Box(StyleLibrary.DpTexture, StyleLibrary.DpBox);
         }
 
         #endregion

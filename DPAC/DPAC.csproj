@@ -41,9 +41,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DrPepperAlarm.cs" />
-    <Compile Include="ConfigNodeStore.cs" />
-    <Compile Include="DrPepperConfig.cs" />
+    <Compile Include="ConfigWindow.cs" />
+    <Compile Include="Alarm.cs" />
+    <Compile Include="ConfigButton.cs" />
+    <Compile Include="ConfigObject.cs" />
+    <Compile Include="Config.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StyleLibrary.cs" />
   </ItemGroup>

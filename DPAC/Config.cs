@@ -23,11 +23,12 @@ namespace DPAC
 
     #endregion
 
-    public class DrPepperConfig : ConfigNodeStore
+    public class Config : ConfigObject
     {
         #region Fields
 
-        private static readonly DrPepperConfig instance = new DrPepperConfig();
+        private static readonly Config instance = new Config();
+        [Persistent] private bool enabled = true;
 
         [Persistent] private int firstShowTime = 20 * 60;
         [Persistent] private float flashDuration = 0.2f;
@@ -42,7 +43,7 @@ namespace DPAC
 
         #region Constructors
 
-        private DrPepperConfig() : base("DPAC.cfg")
+        private Config() : base("DPAC.cfg")
         {
             this.Load();
             this.SetDebugValues();
@@ -52,6 +53,12 @@ namespace DPAC
         #endregion
 
         #region Properties
+
+        public static bool Enabled
+        {
+            get { return instance.enabled; }
+            set { instance.enabled = value; }
+        }
 
         public static int FirstShowTime
         {
@@ -77,7 +84,7 @@ namespace DPAC
             set { instance.heading = value; }
         }
 
-        public static DrPepperConfig Instance
+        public static Config Instance
         {
             get { return instance; }
         }
