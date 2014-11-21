@@ -51,6 +51,7 @@ namespace DPAC
         {
             if (Instance || !Config.Enabled)
             {
+                Destroy(this);
                 return;
             }
 
