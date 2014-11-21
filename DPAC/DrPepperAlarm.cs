@@ -15,32 +15,33 @@
 //     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // 
 
-#region Using Directives
-
-using System;
-using System.Collections;
-
-using UnityEngine;
-
-using Random = System.Random;
-
-#endregion
-
 namespace DPAC
 {
+    #region Using Directives
+
+    using System.Collections;
+
+    using UnityEngine;
+
+    using Random = System.Random;
+
+    #endregion
+
     [KSPAddon(KSPAddon.Startup.MainMenu, false)]
     public class DrPepperAlarm : MonoBehaviour
     {
         #region Fields
 
-        private Texture2D canTexture;
-        private GUIStyle canTextureStyle;
-        private GUIStyle drinkLabelStyle;
         private bool hasCentred;
         private float nextShowTime;
-        private Rect screenRect;
+        private Rect screenRect = new Rect(Screen.width, Screen.height, 0.0f, 0.0f);
         private bool visible;
-        private GUIStyle windowStyle;
+
+        #endregion
+
+        #region Properties
+
+        public static DrPepperAlarm Instance { get; private set; }
 
         #endregion
 
@@ -48,32 +49,20 @@ namespace DPAC
 
         protected void Awake()
         {
+            if (Instance != null)
+            {
+                return;
+            }
+
+            Instance = this;
             DontDestroyOnLoad(this);
 
-            this.nextShowTime = Time.time + Config.FirstShowTime;
-
-            this.windowStyle = new GUIStyle();
-
-            this.drinkLabelStyle = new GUIStyle(HighLogic.Skin.label)
-            {
-                fontStyle = FontStyle.Bold,
-                fontSize = 50,
-                alignment = TextAnchor.UpperCenter,
-                stretchWidth = true
-            };
-
-            this.canTextureStyle = new GUIStyle
-            {
-                fixedHeight = Screen.height * 0.75f,
-                fixedWidth = Screen.height * 0.75f * 0.54649947753396029258098223615465f
-            };
-
-            this.canTexture = GameDatabase.Instance.GetTexture("DPAC/Textures/DPCan", false);
+            this.nextShowTime = Time.time + DrPepperConfig.FirstShowTime;
         }
 
         protected void OnDestroy()
         {
-            Config.Save();
+            DrPepperConfig.Instance.Save();
         }
 
         protected void OnGUI()
@@ -83,7 +72,7 @@ namespace DPAC
                 return;
             }
 
-            this.screenRect = GUILayout.Window(this.GetInstanceID(), this.screenRect, this.Window, String.Empty, this.windowStyle);
+            this.screenRect = GUILayout.Window(this.GetInstanceID(), this.screenRect, this.Window, string.Empty, GUIStyle.none);
             if (!this.hasCentred && this.screenRect.width > 0.0f && this.screenRect.height > 0.0f)
             {
                 this.screenRect.center = new Vector2(Screen.width * 0.5f, Screen.height * 0.5f);
@@ -95,8 +84,8 @@ namespace DPAC
         {
             if (Time.time >= this.nextShowTime)
             {
-                this.nextShowTime = Time.time + new Random().Next(Config.MinShowTime, Config.MaxShowTime);
-                this.StartCoroutine(this.Showing(Config.Flashes));
+                this.nextShowTime = Time.time + new Random().Next(DrPepperConfig.MinShowTime, DrPepperConfig.MaxShowTime);
+                this.StartCoroutine(this.Showing(DrPepperConfig.Flashes));
             }
         }
 
@@ -106,23 +95,23 @@ namespace DPAC
 
         private IEnumerator Showing(int flashes)
         {
-            for (var i = 0; i < flashes; i++)
+            for (int i = 0; i < flashes; i++)
             {
                 if (i > 0)
                 {
-                    yield return new WaitForSeconds(Config.FlashDuration);
+                    yield return new WaitForSeconds(DrPepperConfig.FlashDuration);
                 }
 
                 this.visible = true;
-                yield return new WaitForSeconds(Config.ShowDuration);
+                yield return new WaitForSeconds(DrPepperConfig.ShowDuration);
                 this.visible = false;
             }
         }
 
         private void Window(int windowId)
         {
-            GUILayout.Label("DRINK!!!", this.drinkLabelStyle);
-            GUILayout.Box(this.canTexture, this.canTextureStyle);
+            GUILayout.Label(DrPepperConfig.Heading, StyleLibrary.Heading);
+            GUILayout.Box(StyleLibrary.Texture, StyleLibrary.Box);
         }
 
         #endregion
