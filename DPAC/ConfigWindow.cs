@@ -30,18 +30,13 @@ namespace DPAC
         #region Fields
 
         private bool centred;
-        private Rect screenRect = new Rect(Screen.width, Screen.height, 300.0f, 0.0f);
+        private Rect screenRect = new Rect(0.0f, 0.0f, 300.0f, 0.0f);
 
         #endregion
 
         public void OnGUI()
         {
             this.screenRect = GUILayout.Window(this.GetInstanceID(), this.screenRect, this.OnWindow, "DPAC Configuration", HighLogic.Skin.window);
-            if (!this.centred && this.screenRect.width > 0.0f && this.screenRect.height > 0.0f)
-            {
-                this.centred = true;
-                this.screenRect.center = new Vector2(Screen.width * 0.5f, Screen.height * 0.5f);
-            }
         }
 
         public void OnWindow(int windowId)

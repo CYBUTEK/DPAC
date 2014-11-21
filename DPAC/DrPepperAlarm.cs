@@ -28,7 +28,7 @@ namespace DPAC
     #endregion
 
     [KSPAddon(KSPAddon.Startup.MainMenu, false)]
-    public class Alarm : MonoBehaviour
+    public class DrPepperAlarm : MonoBehaviour
     {
         #region Fields
 
@@ -41,7 +41,7 @@ namespace DPAC
 
         #region Properties
 
-        public static Alarm Instance { get; private set; }
+        public static DrPepperAlarm Instance { get; private set; }
 
         #endregion
 
@@ -49,7 +49,7 @@ namespace DPAC
 
         protected void Awake()
         {
-            if (Instance != null)
+            if (Instance || !Config.Enabled)
             {
                 return;
             }

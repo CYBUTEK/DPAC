@@ -42,7 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConfigWindow.cs" />
-    <Compile Include="Alarm.cs" />
+    <Compile Include="DrPepperAlarm.cs" />
     <Compile Include="ConfigButton.cs" />
     <Compile Include="ConfigObject.cs" />
     <Compile Include="Config.cs" />

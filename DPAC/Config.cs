@@ -21,6 +21,8 @@ namespace DPAC
 
     using System.Diagnostics;
 
+    using UnityEngine;
+
     #endregion
 
     public class Config : ConfigObject
@@ -57,7 +59,19 @@ namespace DPAC
         public static bool Enabled
         {
             get { return instance.enabled; }
-            set { instance.enabled = value; }
+            set
+            {
+                instance.enabled = value;
+
+                if (value && !DrPepperAlarm.Instance)
+                {
+                    HighLogic.fetch.gameObject.AddComponent<DrPepperAlarm>();
+                }
+                else if (!value && DrPepperAlarm.Instance)
+                {
+                    Object.Destroy(DrPepperAlarm.Instance);
+                }
+            }
         }
 
         public static int FirstShowTime
