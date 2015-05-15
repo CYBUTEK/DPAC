@@ -1,5 +1,5 @@
 ﻿// 
-//     Copyright (C) 2014 CYBUTEK
+//     Copyright (C) 2015 CYBUTEK
 // 
 //     This program is free software: you can redistribute it and/or modify
 //     it under the terms of the GNU General Public License as published by
@@ -17,40 +17,27 @@
 
 namespace DPAC
 {
-    #region Using Directives
-
     using System;
-
     using UnityEngine;
-
-    #endregion
 
     public static class StyleLibrary
     {
-        #region Constructors
-
         static StyleLibrary()
         {
             SetStyles();
         }
 
-        #endregion
-
-        #region Properties
-
         public static GUIStyle ConfigLabel { get; set; }
 
         public static GUIStyle ConfigText { get; set; }
+
+        public static GUIStyle ConfigToggle { get; set; }
 
         public static GUIStyle DpBox { get; set; }
 
         public static GUIStyle DpHeading { get; set; }
 
         public static Texture DpTexture { get; set; }
-
-        public static GUIStyle ConfigToggle { get; set; }
-
-        #endregion
 
         public static void SetStyles()
         {

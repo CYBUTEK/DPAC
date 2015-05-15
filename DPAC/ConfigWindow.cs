@@ -1,5 +1,5 @@
 ﻿// 
-//     Copyright (C) 2014 CYBUTEK
+//     Copyright (C) 2015 CYBUTEK
 // 
 //     This program is free software: you can redistribute it and/or modify
 //     it under the terms of the GNU General Public License as published by
@@ -17,26 +17,17 @@
 
 namespace DPAC
 {
-    #region Using Directives
-
     using System.Globalization;
-
     using UnityEngine;
-
-    #endregion
 
     public class ConfigWindow : MonoBehaviour
     {
-        #region Fields
-
         private bool centred;
         private Rect screenRect = new Rect(0.0f, 0.0f, 300.0f, 0.0f);
 
-        #endregion
-
         public void OnGUI()
         {
-            this.screenRect = GUILayout.Window(this.GetInstanceID(), this.screenRect, this.OnWindow, "DPAC Configuration", HighLogic.Skin.window);
+            screenRect = GUILayout.Window(GetInstanceID(), screenRect, OnWindow, "DPAC Configuration", HighLogic.Skin.window);
         }
 
         public void OnWindow(int windowId)

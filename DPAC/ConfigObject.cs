@@ -1,5 +1,5 @@
 ﻿// 
-//     Copyright (C) 2014 CYBUTEK
+//     Copyright (C) 2015 CYBUTEK
 // 
 //     This program is free software: you can redistribute it and/or modify
 //     it under the terms of the GNU General Public License as published by
@@ -17,59 +17,49 @@
 
 namespace DPAC
 {
-    #region Using Directives
-
     using System;
     using System.IO;
     using System.Reflection;
-
     using UnityEngine;
-
-    #endregion
 
     public class ConfigObject
     {
-        #region Fields
-
         private string filePath;
-
-        #endregion
-
-        #region Constructors
 
         public ConfigObject() { }
 
         public ConfigObject(string filePath)
         {
-            this.FilePath = filePath;
+            FilePath = filePath;
         }
-
-        #endregion
-
-        #region Properties
 
         public bool FileExists
         {
-            get { return File.Exists(this.FilePath); }
+            get
+            {
+                return File.Exists(FilePath);
+            }
         }
 
         public string FilePath
         {
-            get { return this.filePath; }
-            set { this.filePath = Path.GetFullPath(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) ?? string.Empty, value)); }
+            get
+            {
+                return filePath;
+            }
+            set
+            {
+                filePath = Path.GetFullPath(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) ?? string.Empty, value));
+            }
         }
-
-        #endregion
-
-        #region Loading
 
         public bool Load()
         {
             try
             {
-                if (this.FileExists)
+                if (FileExists)
                 {
-                    ConfigNode.LoadObjectFromConfig(this, ConfigNode.Load(this.FilePath).GetNode(this.GetType().Name));
+                    ConfigNode.LoadObjectFromConfig(this, ConfigNode.Load(FilePath).GetNode(GetType().Name));
                     return true;
                 }
             }
@@ -81,15 +71,11 @@ namespace DPAC
             return false;
         }
 
-        #endregion
-
-        #region Saving
-
         public bool Save()
         {
             try
             {
-                new ConfigNode(this.GetType().Name).AddNode(ConfigNode.CreateConfigFromObject(this, new ConfigNode(this.GetType().Name))).Save(this.filePath);
+                new ConfigNode(GetType().Name).AddNode(ConfigNode.CreateConfigFromObject(this, new ConfigNode(GetType().Name))).Save(filePath);
                 return true;
             }
             catch (Exception ex)
@@ -98,7 +84,5 @@ namespace DPAC
             }
             return false;
         }
-
-        #endregion
     }
 }

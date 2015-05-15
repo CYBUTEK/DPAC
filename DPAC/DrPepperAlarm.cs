@@ -1,5 +1,5 @@
 ﻿// 
-//     Copyright (C) 2014 CYBUTEK
+//     Copyright (C) 2015 CYBUTEK
 // 
 //     This program is free software: you can redistribute it and/or modify
 //     it under the terms of the GNU General Public License as published by
@@ -17,35 +17,19 @@
 
 namespace DPAC
 {
-    #region Using Directives
-
     using System.Collections;
-
     using UnityEngine;
-
     using Random = System.Random;
-
-    #endregion
 
     [KSPAddon(KSPAddon.Startup.MainMenu, false)]
     public class DrPepperAlarm : MonoBehaviour
     {
-        #region Fields
-
         private bool hasCentred;
         private float nextShowTime;
         private Rect screenRect = new Rect(Screen.width, Screen.height, 0.0f, 0.0f);
         private bool visible;
 
-        #endregion
-
-        #region Properties
-
         public static DrPepperAlarm Instance { get; private set; }
-
-        #endregion
-
-        #region Methods: protected
 
         protected void Awake()
         {
@@ -58,7 +42,7 @@ namespace DPAC
             Instance = this;
             DontDestroyOnLoad(this);
 
-            this.nextShowTime = Time.time + Config.FirstShowTime;
+            nextShowTime = Time.time + Config.FirstShowTime;
         }
 
         protected void OnDestroy()
@@ -68,31 +52,27 @@ namespace DPAC
 
         protected void OnGUI()
         {
-            if (!this.visible)
+            if (!visible)
             {
                 return;
             }
 
-            this.screenRect = GUILayout.Window(this.GetInstanceID(), this.screenRect, this.Window, string.Empty, GUIStyle.none);
-            if (!this.hasCentred && this.screenRect.width > 0.0f && this.screenRect.height > 0.0f)
+            screenRect = GUILayout.Window(GetInstanceID(), screenRect, Window, string.Empty, GUIStyle.none);
+            if (!hasCentred && screenRect.width > 0.0f && screenRect.height > 0.0f)
             {
-                this.screenRect.center = new Vector2(Screen.width * 0.5f, Screen.height * 0.5f);
-                this.hasCentred = true;
+                screenRect.center = new Vector2(Screen.width * 0.5f, Screen.height * 0.5f);
+                hasCentred = true;
             }
         }
 
         protected void Update()
         {
-            if (Time.time >= this.nextShowTime)
+            if (Time.time >= nextShowTime)
             {
-                this.nextShowTime = Time.time + new Random().Next(Config.MinShowTime, Config.MaxShowTime);
-                this.StartCoroutine(this.Showing(Config.Flashes));
+                nextShowTime = Time.time + new Random().Next(Config.MinShowTime, Config.MaxShowTime);
+                StartCoroutine(Showing(Config.Flashes));
             }
         }
-
-        #endregion
-
-        #region Methods: private
 
         private IEnumerator Showing(int flashes)
         {
@@ -103,9 +83,9 @@ namespace DPAC
                     yield return new WaitForSeconds(Config.FlashDuration);
                 }
 
-                this.visible = true;
+                visible = true;
                 yield return new WaitForSeconds(Config.ShowDuration);
-                this.visible = false;
+                visible = false;
             }
         }
 
@@ -114,7 +94,5 @@ namespace DPAC
             GUILayout.Label(Config.Heading, StyleLibrary.DpHeading);
             GUILayout.Box(StyleLibrary.DpTexture, StyleLibrary.DpBox);
         }
-
-        #endregion
     }
 }

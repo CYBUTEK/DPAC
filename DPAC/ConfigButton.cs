@@ -1,5 +1,5 @@
 ﻿// 
-//     Copyright (C) 2014 CYBUTEK
+//     Copyright (C) 2015 CYBUTEK
 // 
 //     This program is free software: you can redistribute it and/or modify
 //     it under the terms of the GNU General Public License as published by
@@ -17,57 +17,45 @@
 
 namespace DPAC
 {
-    #region Using Directives
-
     using UnityEngine;
-
-    #endregion
 
     [KSPAddon(KSPAddon.Startup.SpaceCentre, false)]
     public class ConfigButton : MonoBehaviour
     {
-        #region Fields
-
         private ApplicationLauncherButton button;
         private ConfigWindow window;
 
-        #endregion
-
         public void OnDestroy()
         {
-            if (this.button)
+            if (button)
             {
-                ApplicationLauncher.Instance.RemoveModApplication(this.button);
+                ApplicationLauncher.Instance.RemoveModApplication(button);
             }
-            if (this.window)
+            if (window)
             {
-                Destroy(this.window);
+                Destroy(window);
             }
         }
-
-        public void Start()
-        {
-            this.button = ApplicationLauncher.Instance.AddModApplication(this.OnTrue, this.OnFalse, null, null, null, null, ApplicationLauncher.AppScenes.ALWAYS, StyleLibrary.DpTexture);
-        }
-
-        #region Application Launcher
 
         public void OnFalse()
         {
-            if (this.window != null)
+            if (window != null)
             {
-                Destroy(this.window);
+                Destroy(window);
             }
         }
 
         public void OnTrue()
         {
-            if (this.window == null)
+            if (window == null)
             {
-                this.window = this.gameObject.AddComponent<ConfigWindow>();
+                window = gameObject.AddComponent<ConfigWindow>();
             }
         }
 
-        #endregion
+        public void Start()
+        {
+            button = ApplicationLauncher.Instance.AddModApplication(OnTrue, OnFalse, null, null, null, null, ApplicationLauncher.AppScenes.ALWAYS, StyleLibrary.DpTexture);
+        }
     }
 }
